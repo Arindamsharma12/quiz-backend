@@ -14,7 +14,7 @@ class Quiz {
         console.log("room created");
         setInterval(() => {
             this.debug();
-        }, 10000);
+        }, 5000);
     }
     debug() {
         console.log("----debug---");
@@ -26,7 +26,7 @@ class Quiz {
     }
     addProblem(problem) {
         this.problems.push(problem);
-        console.log(this.problems);
+        // console.log(this.problems);
     }
     start() {
         this.hasStarted = true;
@@ -54,8 +54,9 @@ class Quiz {
         });
     }
     next() {
-        this.activeProblem++;
         const problem = this.problems[this.activeProblem];
+        this.activeProblem = this.activeProblem + 1;
+        console.log(problem);
         if (problem) {
             this.setActiveProblem(problem);
         }
@@ -105,7 +106,10 @@ class Quiz {
             isCorrect: problem.answer === submission,
             optionSelected: submission
         });
-        user.points += (1000 - (500 * (new Date().getTime() - problem.startTime) / (PROBLEM_TIME_S * 1000)));
+        if (problem.answer === submission) {
+            user.points += (1000 - (500 * (new Date().getTime() - problem.startTime) / (PROBLEM_TIME_S * 1000)));
+        }
+        // user.points += (1000 - (500 * (new Date().getTime() - problem.startTime) / (PROBLEM_TIME_S * 1000)));
     }
     getLeaderboard() {
         return this.users.sort((a, b) => a.points < b.points ? 1 : -1).slice(0, 20);

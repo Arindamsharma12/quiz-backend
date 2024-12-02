@@ -48,7 +48,7 @@ export class Quiz {
         console.log("room created");
         setInterval(() => {
             this.debug();
-        }, 10000)
+        }, 5000)
     }
     debug() {
         console.log("----debug---")
@@ -60,7 +60,7 @@ export class Quiz {
     }
     addProblem(problem: Problem) {
         this.problems.push(problem);
-        console.log(this.problems);
+        // console.log(this.problems);
     }
     start() {
         this.hasStarted = true;
@@ -89,8 +89,9 @@ export class Quiz {
         })
     }
     next() {
-        this.activeProblem++;
         const problem = this.problems[this.activeProblem];
+        this.activeProblem = this.activeProblem+1;
+        console.log(problem);
         if (problem) {
             this.setActiveProblem(problem);
         } else {
@@ -142,7 +143,10 @@ export class Quiz {
             isCorrect: problem.answer === submission,
             optionSelected: submission
         });
-        user.points += (1000 - (500 * (new Date().getTime() - problem.startTime) / (PROBLEM_TIME_S * 1000)));
+        if (problem.answer === submission) {
+            user.points += (1000 - (500 * (new Date().getTime() - problem.startTime) / (PROBLEM_TIME_S * 1000)));
+        }
+        // user.points += (1000 - (500 * (new Date().getTime() - problem.startTime) / (PROBLEM_TIME_S * 1000)));
     }
 
     getLeaderboard() {
